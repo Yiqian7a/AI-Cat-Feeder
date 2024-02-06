@@ -1,3 +1,9 @@
+## 1. 简介
+
+本项目是山东大学威海校区22级数科班第一学年大作业，目标是为流浪猫设计一个户外喂猫机，搭配人工智能实现自动检测猫并投放猫粮。
+
+该项目基于[ncnn高性能神经网络前向计算框架](https://github.com/Tencent/ncnn)和[Nanodet-pytorch目标检测模型](https://github.com/guo-pu/NanoDet-PyTorch)搭建，实际部署使用搭载`Ubuntu22.04`系统的[Orang Pi 3 LTS](http://www.orangepi.cn/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-3-LTS.html)开发版。
+
 ## 2. 配置环境
 
 ### 2.1 安装miniconda
