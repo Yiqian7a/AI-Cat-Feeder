@@ -1,0 +1,5 @@
+names:
+  0: cat
+nc: 1
+train: C:\Users\cjshl\Desktop\yolov5\data\VOCData\train
+val: C:\Users\cjshl\Desktop\yolov5\data\VOCData\valid
