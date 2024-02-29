@@ -8,7 +8,7 @@
 
 ### 2.1 安装 OpenCV
 
-安装依赖包及 Opencv，此处可以参考 香橙派官方教程中 **3.32.** **OpenCV** **的安装方法** 部分：
+安装依赖包及 Opencv，此处可以参考 香橙派官方教程中 **3.32. OpenCV 的安装方法** 部分：
 
 ```bash
 sudo apt update
@@ -17,7 +17,7 @@ sudo apt install -y libopencv-dev python3-opencv
 
 ### 2.2  编译ncnn
 
-此处可以参考香橙派官方教程中 **3.35. 腾讯** **ncnn** **高性能神经网络前向计算框架测试 **部分。如果你使用的设备和我一样，你也许可以不必编译，直接跳过这步即可。
+此处可以参考香橙派官方教程中 **3.35. 腾讯 ncnn 高性能神经网络前向计算框架测试 **部分。如果你使用的设备和我一样，你也许可以不必编译，直接跳过这步即可。
 
 （1）安装依赖包：
 
@@ -30,7 +30,7 @@ sudo apt install -y build-essential git cmake libprotobuf-dev protobuf-compiler 
 ```bash
 mkdir build
 cd build
-cmake \ -DCMAKE_TOOLCHAIN_FILE=../toolchains/aarch64-linux-gnu.toolchain.cmake \ -DNCNN_SIMPLEOCV=ON -DNCNN_BUILD_EXAMPLES=ON ..
+cmake -DCMAKE_TOOLCHAIN_FILE=../toolchains/aarch64-linux-gnu.toolchain.cmake -DNCNN_SIMPLEOCV=ON -DNCNN_BUILD_EXAMPLES=ON ..
 make -j$(nproc)
 ```
 
@@ -80,4 +80,6 @@ _pin_map = {
 
 ### 3. 运行程序
 
-主要程序为`NanoDet-PyTorch-CPU`文件夹中的`detect_main.py`和`gpio_test.py`，放在该位置是为了方便调用其中的 nanodet 库。首次运行会下载一个.pth模型，请务必联网。
+主要程序为`NanoDet-PyTorch-CPU`文件夹中的`detect_main.py`和`gpio_test.py`，文件作用顾名思义，实际检查猫时运行前者，测试gpio接口运行后者，放在该位置是为了方便调用其中的 nanodet 库。
+
+另外，首次运行`detect_main.py`会下载一个.pth模型，请务必联网。

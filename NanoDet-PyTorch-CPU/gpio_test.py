@@ -11,8 +11,8 @@ import OPi.GPIO as GPIO
 # 引脚定义
 power_光敏电阻 = 16;    pi_光敏电阻 = 18          # GND_光敏电阻 = 14
 power_红外 = 5;        pi_红外 = 3              # GND_红外 = 6
-po_电机 = 8          # power_电机 = 5v 2        GND_电机 = 9
-po_灯带 = 19         # power_灯带 = 5v 4       GND_灯带 = 20
+po_电机 = 8          # power_电机 = 5v 2        # GND_电机 = 9
+po_灯带 = 19         # power_灯带 = 5v 4        # GND_灯带 = 20
 
 
 # GND = 6,9,14,20,25
@@ -29,30 +29,19 @@ GPIO.setup(power_红外, GPIO.OUT);      GPIO.setup(pi_红外, GPIO.IN)
 GPIO.setup(po_电机, GPIO.OUT)
 GPIO.setup(po_灯带, GPIO.OUT)
 
-
-def power_电机(t1=2):
-    global food
-    # 5r/min，30度/2s
-    # open
-    GPIO.output(po_电机, 0)
-    time.sleep(t1)
-
-    # close
-    GPIO.output(po_电机, 1)
-
-
-    # food = 5
 # 初始化关闭
 GPIO.output(po_电机, 1)
 GPIO.output(po_灯带, 1)
 
-power_电机(60)
+if __name__ == "__main__":
+    def power_电机(t1=2):
+        # 5r/min，30度/2s
+        # open
+        GPIO.output(po_电机, 0)
+        time.sleep(t1)
 
-#
-# while True:
-#
-#
-#     for i in range(10):
-#         GPIO.output(po_灯带, 0)
-#         time.sleep(2)
-#         GPIO.output(po_灯带, 1)
+        # close
+        GPIO.output(po_电机, 1)
+
+
+    power_电机(60)
