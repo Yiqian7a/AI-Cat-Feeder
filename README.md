@@ -82,4 +82,6 @@ _pin_map = {
 
 主要程序为`NanoDet-PyTorch-CPU`文件夹中的`detect_main.py`和`gpio_test.py`，文件作用顾名思义，实际检查猫时运行前者，测试gpio接口运行后者，放在该位置是为了方便调用其中的 nanodet 库。
 
+需要用到的引脚在`gpio_test.py`中定义并注释说明了，所有的编号都是香橙派的板载编码。
+
 另外，首次运行`detect_main.py`会下载一个.pth模型，请务必联网。
