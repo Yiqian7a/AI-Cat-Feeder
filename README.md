@@ -2,13 +2,13 @@
 
 本项目是山东大学威海校区22级数科班第一学年大作业，目标是为流浪猫设计一个户外喂猫机，搭配人工智能实现自动检测猫并投放猫粮。
 
-该项目基于[ncnn高性能神经网络前向计算框架](https://github.com/Tencent/ncnn)和[Nanodet-pytorch目标检测模型](https://github.com/guo-pu/NanoDet-PyTorch)搭建，实际部署使用搭载`Ubuntu22.04`系统的[Orang Pi 3 LTS](http://www.orangepi.cn/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-3-LTS.html)开发版，同时也是本文档基于的硬件配置。
+该项目基于 [ncnn高性能神经网络前向计算框架](https://github.com/Tencent/ncnn) 和 [Nanodet-pytorch目标检测模型](https://github.com/guo-pu/NanoDet-PyTorch) 搭建，实际部署使用搭载`Ubuntu22.04`系统的 [Orang Pi 3 LTS ](http://www.orangepi.cn/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-3-LTS.html)开发板，本文档也基于该硬件配置编写。
 
 ## 2. 配置环境
 
 ### 2.1 安装 OpenCV
 
-安装依赖包及 Opencv，此处可以参考 香橙派官方教程中 **3.32. OpenCV 的安装方法** 部分：
+安装依赖包及 Opencv，此处可以参考香橙派官方教程中 “3.32. OpenCV 的安装方法“ 部分：
 
 ```bash
 sudo apt update
@@ -17,7 +17,7 @@ sudo apt install -y libopencv-dev python3-opencv
 
 ### 2.2  编译ncnn
 
-此处可以参考香橙派官方教程中 **3.35. 腾讯 ncnn 高性能神经网络前向计算框架测试 **部分。如果你使用的设备和我一样，你也许可以不必编译，直接跳过这步即可。
+此处可以参考香橙派官方教程中 “3.35. 腾讯 ncnn 高性能神经网络前向计算框架测试“ 部分。如果你使用的设备和我一样，你可以不必编译，直接跳过这步即可。
 
 （1）安装依赖包：
 
