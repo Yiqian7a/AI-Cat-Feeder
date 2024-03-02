@@ -35,22 +35,27 @@ class Predictor(object):
     # 通过修改参数选择保存或者显示带标记框的输出图片
     def visualize(self, dets, meta, class_names, score_thres, save_path='', wait=0):
         time1 = time.time()
-        self.model.head.show_result(meta['raw_img'], dets, class_names, score_thres=score_thres, show=False,save_path=save_path)
-        print('viz time: {:.3f}s'.format(time.time()-time1))
+        self.model.head.show_result(meta['raw_img'], dets, class_names, score_thres=score_thres, show=False,
+                                    save_path=save_path)
+        print('viz time: {:.3f}s'.format(time.time() - time1))
+
 
 # 调用摄像头拍一张照片
 def take_photo(rank=1):
     # 摄像头的分辨率宽高组合，根据摄像头需要调整
     rank_ls = ((1024, 768), (1280, 720), (1600, 1200), (1920, 1080),
                (2048, 1536), (2592, 1944), (3264, 2448), (3840, 2160), (3840, 3104))
-    w,h = rank_ls[rank]
-    cap.set(3,w)
-    cap.set(4,h)
+    w, h = rank_ls[rank]
+    cap.set(3, w)
+    cap.set(4, h)
     print(f"分辨率:{cap.get(3)}x{cap.get(4)}")
-    ret,image = cap.read()
+    ret, image = cap.read()
+    print(ret, image)
     if ret:
         return image
 
+
+food = 5
 def power_电机(t1):
     global food
     # open
@@ -61,7 +66,7 @@ def power_电机(t1):
     GPIO.output(po_电机, 1)
     food = 5
 
-food = 5
+
 def remain_food():
     global food
     GPIO.output(power_红外, 1)
@@ -77,9 +82,10 @@ def remain_food():
     GPIO.output(power_红外, 0)
     return True
 
+
 def find_something():
-    GPIO.output(po_灯带,0)
-    GPIO.output(power_光敏电阻,1)
+    GPIO.output(po_灯带, 0)
+    GPIO.output(power_光敏电阻, 1)
     for i in range(20):
         time.sleep(0.1)
         if GPIO.input(pi_光敏电阻) == 1:
@@ -94,25 +100,25 @@ def find_something():
     GPIO.output(po_灯带, 1)
     return True
 
-def led(color,mode,t1 = 0):
+led_trigger_mode = ['none', 'usb-gadget', 'usb-host', 'kbd-scrolllock', 'kbd-numlock', 'kbd-capslock', 'kbd-kanalock', 'kbd-shiftlock', 'kbd-altgrlock', 'kbd-ctrllock', 'kbd-altlock', 'kbd-shiftllock', 'kbd-shiftrlock', 'kbd-ctrlllock', 'kbd-ctrlrlock', 'usbport', 'disk-activity', 'disk-read', 'disk-write', 'ide-disk', 'mtd', 'nand-disk', 'heartbeat', 'cpu', 'cpu0', 'cpu1', 'cpu2', 'cpu3', 'activity', '[default-on]', 'panic', 'mmc0', 'mmc2', 'mmc1', 'rfkill-any', 'rfkill-none', 'rfkill0', 'rc-feedback', 'rfkill1', 'bluetooth-power', 'hci0-power', 'rfkill2', 'stmmac-0:01:link', 'stmmac-0:01:1Gbps', 'stmmac-0:01:100Mbps', 'stmmac-0:01:10Mbps']
+def led(color, mode='default-on', t1=0):
     if not t1:
-        if mode == 'heartbeat':
+        if mode in led_trigger_mode:
             os.system(f"sudo echo {mode} > /sys/devices/platform/leds/leds/{color}-led/trigger")
         else:
-            os.system(f"sudo echo {mode} > /sys/devices/platform/leds/leds/{color}-led/brightness")
+            print(f'{mode} is not supported led-mode')
     else:
-        if mode == 'heartbeat':
+        if mode in led_trigger_mode:
             os.system(f"sudo echo {mode} > /sys/devices/platform/leds/leds/{color}-led/trigger")
             time.sleep(t1)
-            os.system(f"sudo echo 'none' > /sys/devices/platform/leds/leds/{color}-led/trigger")
+            os.system(f"sudo echo none > /sys/devices/platform/leds/leds/{color}-led/trigger")
         else:
-            os.system(f"sudo echo {mode} > /sys/devices/platform/leds/leds/{color}-led/brightness")
-            time.sleep(t1)
-            os.system(f"sudo echo '0' > /sys/devices/platform/leds/leds/{color}-led/brightness")
+            print(f'{mode} is not supported led-mode')
+
 
 def find_cat():
     # 开始推理时黄灯闪烁，发现猫黄灯常亮2-3s；未发现猫红灯常亮3s(所有推理结束后）
-    led('green','heartbeat')
+    led('green', 'heartbeat')
     raw_image = take_photo(3)
 
     # 整理由nanodet模型推理出的结果
@@ -126,24 +132,27 @@ def find_cat():
     logger.log('开始推理')
     meta, res = predictor.inference(raw_image)
     if sort_result(res, 0.6):
-        led('green', '1')
+        led('green')
         print('cat!cat!cat!')
         power_电机(2)
         predictor.visualize(res, meta, cfg.class_names, 0.6, save_path=f'{path_dir}/{i}_findcat.jpg')
         return True
     else:
         print('no cat')
-        cv2.imwrite(f'{path_dir}/{i}.jpg',raw_image)
+        cv2.imwrite(f'{path_dir}/{i}.jpg', raw_image)
         return False
+
+
 # -------------------------------------------------------------------------------------------------------------------
 
-
+led('green')
+led('red', mode='none')
 # 加载推理模型
 load_config(cfg, './config/nanodet-m.yml')
 logger = Logger(-1, use_tensorboard=False)
 predictor = Predictor(cfg, 'model/nanodet_m.pth', logger)
-led('green','1')
-while 1: # 每隔10秒检测一次
+
+while 1:  # 每隔10秒检测一次
     time.sleep(6)
     print(food)
     if find_something() and (not remain_food() or food == 0):
@@ -159,20 +168,19 @@ while 1: # 每隔10秒检测一次
             for i in range(10):
                 if find_cat():
                     cap.release()
-                    os.renames(dir,dir + '_findcat')
+                    os.renames(dir, dir + '_findcat')
                     find = True
 
                     # print('冷却600s...')
-                    # led('green', '0')
+                    led('green', '0')
                     # time.sleep(600)
-                    # led('green', '1')
+                    led('green', '1')
                     break
             else:
                 cap.release()
-                os.renames(dir,dir + '_no')
+                os.renames(dir, dir + '_no')
                 # 红灯常亮3s
-                led('green', '0')
-                led('red', '1',3)
+                led('red', t1=3)
 
                 # print('冷却60s...')
                 # led('green', '0')
@@ -181,6 +189,6 @@ while 1: # 每隔10秒检测一次
         else:
             with open(f'{dir}_camera_missed', 'w'):
                 pass
-            led('red','heartbeat',4)
+            led('red', 'heartbeat', 3)
     else:
         time.sleep(3)
