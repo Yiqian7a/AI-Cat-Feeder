@@ -8,12 +8,30 @@
 
 ### 2.1 安装 OpenCV
 
-安装依赖包及 Opencv，此处可以参考香橙派官方教程中 “3.32. OpenCV 的安装方法“ 部分：
+（1）安装依赖包及 Opencv，此处可以参考香橙派官方教程中 “3.32. OpenCV 的安装方法“ 部分：
 
 ```bash
 sudo apt update
 sudo apt install -y libopencv-dev python3-opencv
 ```
+
+输入以下命令检查能否正常使用`cv2`，如果执行完成无报错并在当前目录下出现`image.jpg`图片文件则安装成功：
+
+```bash
+python3 -c "import cv2;cap = cv2.VideoCapture(1); ret, image = cap.read(); cv2.imwrite('./image.jpg', image)"
+```
+
+（2）如果你使用和我一样的设备，可能会遇到以下问题导致`cv2`相关功能没法正常运行：
+
+ 1. 在pip中安装了其他的版本的`opencv-python`库，使用`pip uninstall opencv-python`卸载它；
+
+ 2. 按照（1）安装时可能会缺少相关依赖包，运行下面的命令：
+
+    ```bash
+    sudo apt install -y libgstreamer1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav
+    ```
+
+    
 
 ### 2.2  编译ncnn
 
@@ -28,6 +46,7 @@ sudo apt install -y build-essential git cmake libprotobuf-dev protobuf-compiler 
 （2）进入ncnn文件夹下，输入下述命令开始编译ncnn，大约需要10~15分钟，加上散热器会快些：
 
 ```bash
+rm -rf build/
 mkdir build
 cd build
 cmake -DCMAKE_TOOLCHAIN_FILE=../toolchains/aarch64-linux-gnu.toolchain.cmake -DNCNN_SIMPLEOCV=ON -DNCNN_BUILD_EXAMPLES=ON ..

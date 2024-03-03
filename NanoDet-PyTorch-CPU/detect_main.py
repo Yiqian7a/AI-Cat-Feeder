@@ -100,7 +100,7 @@ def find_something():
     GPIO.output(po_灯带, 1)
     return True
 
-led_trigger_mode = ['none', 'usb-gadget', 'usb-host', 'kbd-scrolllock', 'kbd-numlock', 'kbd-capslock', 'kbd-kanalock', 'kbd-shiftlock', 'kbd-altgrlock', 'kbd-ctrllock', 'kbd-altlock', 'kbd-shiftllock', 'kbd-shiftrlock', 'kbd-ctrlllock', 'kbd-ctrlrlock', 'usbport', 'disk-activity', 'disk-read', 'disk-write', 'ide-disk', 'mtd', 'nand-disk', 'heartbeat', 'cpu', 'cpu0', 'cpu1', 'cpu2', 'cpu3', 'activity', '[default-on]', 'panic', 'mmc0', 'mmc2', 'mmc1', 'rfkill-any', 'rfkill-none', 'rfkill0', 'rc-feedback', 'rfkill1', 'bluetooth-power', 'hci0-power', 'rfkill2', 'stmmac-0:01:link', 'stmmac-0:01:1Gbps', 'stmmac-0:01:100Mbps', 'stmmac-0:01:10Mbps']
+led_trigger_mode = ['none', 'usb-gadget', 'usb-host', 'kbd-scrolllock', 'kbd-numlock', 'kbd-capslock', 'kbd-kanalock', 'kbd-shiftlock', 'kbd-altgrlock', 'kbd-ctrllock', 'kbd-altlock', 'kbd-shiftllock', 'kbd-shiftrlock', 'kbd-ctrlllock', 'kbd-ctrlrlock', 'usbport', 'disk-activity', 'disk-read', 'disk-write', 'ide-disk', 'mtd', 'nand-disk', 'heartbeat', 'cpu', 'cpu0', 'cpu1', 'cpu2', 'cpu3', 'activity', 'default-on', 'panic', 'mmc0', 'mmc2', 'mmc1', 'rfkill-any', 'rfkill-none', 'rfkill0', 'rc-feedback', 'rfkill1', 'bluetooth-power', 'hci0-power', 'rfkill2', 'stmmac-0:01:link', 'stmmac-0:01:1Gbps', 'stmmac-0:01:100Mbps', 'stmmac-0:01:10Mbps']
 def led(color, mode='default-on', t1=0):
     if not t1:
         if mode in led_trigger_mode:
