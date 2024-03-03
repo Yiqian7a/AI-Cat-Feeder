@@ -160,7 +160,7 @@ while 1:  # 每隔10秒检测一次
         # torch.backends.cudnn.enabled = True
         # torch.backends.cudnn.benchmark = True
         cap = cv2.VideoCapture(1)
-        dir = f'../capture/{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}'
+        dir = f'./capture/{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}'
         if cap.isOpened():
             path_dir = dir + '/'
             os.makedirs(path_dir, exist_ok=True)
