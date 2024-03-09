@@ -43,11 +43,16 @@ class Predictor(object):
 # 调用摄像头拍一张照片
 def take_photo():
     led('red',t1 = 0.2)
+    cap = cv2.VideoCapture(1)
+    cap.set(3, w)
+    cap.set(4, h)
     print(f"分辨率:{cap.get(3)}x{cap.get(4)}")
     ret, image = cap.read()
     print(ret, image)
     if ret:
         return image
+    else:
+        raise ValueError('Could not take camera image')
 
 
 food = 5
@@ -159,9 +164,7 @@ while 1:  # 每隔10秒检测一次
         # 摄像头初始化
         # torch.backends.cudnn.enabled = True
         # torch.backends.cudnn.benchmark = True
-        cap = cv2.VideoCapture(1)
-        cap.set(3, w)
-        cap.set(4, h)
+
         dir = f'./capture/{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}'
         if cap.isOpened():
             path_dir = dir + '/'
