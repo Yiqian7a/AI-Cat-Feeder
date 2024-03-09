@@ -8,6 +8,8 @@
 
 ### 2.1 安装 OpenCV
 
+此处参考 [OpenCV-Python 官方教程](https://www.osgeo.cn/opencv-python/ch01-setup/sec04-setup-in-ubuntu.html)
+
 （1）安装依赖包及 Opencv，此处可以参考香橙派官方教程中 “3.32. OpenCV 的安装方法“ 部分：
 
 ```bash
@@ -104,3 +106,17 @@ _pin_map = {
 需要用到的引脚在`gpio_test.py`中定义并注释说明了，所有的编号都是香橙派的板载编码。
 
 另外，首次运行`detect_main.py`会下载一个.pth模型，请务必联网。
+
+
+
+## 3. 项目贡献者
+
+前期：陈峻松、刘宇昊、梁羽枫、陈智鹏、王浚弛；
+
+后期：刘宇昊、王震豪、陈梓博；
+
+（按贡献度从高到低排序）
+
+开发过程讲解视频：[bilibili](https://www.bilibili.com/video/BV1NN4y1976b?vd_source=a6aba61751766c888b91980d2f024a86)
+
+项目仓库：[Gitee](https://gitee.com/Yiqian7a/AI-Cat-Feeder.git)

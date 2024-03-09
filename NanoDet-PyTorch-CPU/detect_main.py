@@ -41,13 +41,8 @@ class Predictor(object):
 
 
 # 调用摄像头拍一张照片
-def take_photo(rank=1):
-    # 摄像头的分辨率宽高组合，根据摄像头需要调整
-    rank_ls = ((1024, 768), (1280, 720), (1600, 1200), (1920, 1080),
-               (2048, 1536), (2592, 1944), (3264, 2448), (3840, 2160), (3840, 3104))
-    w, h = rank_ls[rank]
-    cap.set(3, w)
-    cap.set(4, h)
+def take_photo():
+    led('red',t1 = 0.2)
     print(f"分辨率:{cap.get(3)}x{cap.get(4)}")
     ret, image = cap.read()
     print(ret, image)
@@ -119,7 +114,7 @@ def led(color, mode='default-on', t1=0):
 def find_cat():
     # 开始推理时黄灯闪烁，发现猫黄灯常亮2-3s；未发现猫红灯常亮3s(所有推理结束后）
     led('green', 'heartbeat')
-    raw_image = take_photo(3)
+    raw_image = take_photo()
 
     # 整理由nanodet模型推理出的结果
     def sort_result(dets, score_thresh):
@@ -152,6 +147,11 @@ load_config(cfg, './config/nanodet-m.yml')
 logger = Logger(-1, use_tensorboard=False)
 predictor = Predictor(cfg, 'model/nanodet_m.pth', logger)
 
+# 摄像头的分辨率宽高组合，根据摄像头需要调整
+rank_ls = ((1024, 768), (1280, 720), (1600, 1200), (1920, 1080),
+           (2048, 1536), (2592, 1944), (3264, 2448), (3840, 2160), (3840, 3104))
+w, h = rank_ls[3]
+
 while 1:  # 每隔10秒检测一次
     time.sleep(6)
     print(food)
@@ -160,6 +160,8 @@ while 1:  # 每隔10秒检测一次
         # torch.backends.cudnn.enabled = True
         # torch.backends.cudnn.benchmark = True
         cap = cv2.VideoCapture(1)
+        cap.set(3, w)
+        cap.set(4, h)
         dir = f'./capture/{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}'
         if cap.isOpened():
             path_dir = dir + '/'
