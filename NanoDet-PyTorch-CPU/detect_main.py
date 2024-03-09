@@ -43,12 +43,14 @@ class Predictor(object):
 # 调用摄像头拍一张照片
 def take_photo():
     led('red',t1 = 0.2)
+
     cap = cv2.VideoCapture(1)
-    cap.set(3, w)
-    cap.set(4, h)
-    print(f"分辨率:{cap.get(3)}x{cap.get(4)}")
+    cap.set(3,w)
+    cap.set(4,h)
     ret, image = cap.read()
-    print(ret, image)
+    print(f"分辨率: {cap.get(3)}x{cap.get(4)}")
+
+    cap.release()
     if ret:
         return image
     else:
@@ -161,39 +163,31 @@ while 1:  # 每隔10秒检测一次
     time.sleep(6)
     print(food)
     if find_something() and (not remain_food() or food == 0):
-        # 摄像头初始化
-        # torch.backends.cudnn.enabled = True
-        # torch.backends.cudnn.benchmark = True
 
         dir = f'./capture/{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}'
-        if cap.isOpened():
-            path_dir = dir + '/'
-            os.makedirs(path_dir, exist_ok=True)
+        path_dir = dir + '/'
+        os.makedirs(path_dir, exist_ok=True)
 
-            for i in range(10):
-                if find_cat():
-                    cap.release()
-                    os.renames(dir, dir + '_findcat')
-                    find = True
-
-                    # print('冷却600s...')
-                    led('green', '0')
-                    # time.sleep(600)
-                    led('green', '1')
-                    break
-            else:
+        for i in range(10):
+            if find_cat():
                 cap.release()
-                os.renames(dir, dir + '_no')
-                # 红灯常亮3s
-                led('red', t1=3)
+                os.renames(dir, dir + '_findcat')
+                find = True
 
-                # print('冷却60s...')
-                # led('green', '0')
-                # time.sleep(60)
-                # led('green', '1')
+                # print('冷却600s...')
+                led('green', '0')
+                # time.sleep(600)
+                led('green', '1')
+                break
         else:
-            with open(f'{dir}_camera_missed', 'w'):
-                pass
-            led('red', 'heartbeat', 3)
+            cap.release()
+            os.renames(dir, dir + '_no')
+            # 红灯常亮3s
+            led('red', t1=3)
+
+            # print('冷却60s...')
+            # led('green', '0')
+            # time.sleep(60)
+            # led('green', '1')
     else:
         time.sleep(3)
