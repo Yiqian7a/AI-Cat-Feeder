@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -O3 -DNDEBUG -flto -shared  -o ../../lib.linux-aarch64-3.10/ncnn/ncnn.cpython-310-aarch64-linux-gnu.so CMakeFiles/pyncnn.dir/src/main.cpp.o  ../src/libncnn.a /usr/lib/gcc/aarch64-linux-gnu/11/libgomp.so /usr/lib/aarch64-linux-gnu/libpthread.a 
