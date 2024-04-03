@@ -59,7 +59,7 @@ def remain_food():
     GPIO.output(power_红外, 0)
     return True
 
-def slowly_light(on=False, f=100):
+def slowly_light(on=True, f=10000):
     # False渐亮，True渐暗
     for i in range(100):
         GPIO.output(po_灯带, on)
