@@ -1,5 +1,7 @@
 from gpio import *
 
-power_电机(5)
+
+
+open_light(5)
 time.sleep(3)
-power_电机(5)
+open_light(5)

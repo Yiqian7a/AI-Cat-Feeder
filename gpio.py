@@ -33,3 +33,44 @@ GPIO.setup(po_灯带, GPIO.OUT)
 GPIO.output(po_电机, 1)
 GPIO.output(po_灯带, 1)
 
+def open_light(t1=2):
+    GPIO.output(po_灯带, 0)
+    time.sleep(t1)
+    GPIO.output(po_灯带, 1)
+
+def power_motor(t1=2):
+    # 5r/min，30度/2s
+    GPIO.output(po_电机, 0)
+    time.sleep(t1)
+    GPIO.output(po_电机, 1)
+
+def remain_food():
+    GPIO.output(power_红外, 1)
+    for i in range(10):
+        if GPIO.input(pi_红外) == 1:
+            print('猫粮还有剩余')
+            break
+        time.sleep(0.1)
+    else:
+        print('猫粮所剩无几')
+        GPIO.output(power_红外, 0)
+        return False
+    GPIO.output(power_红外, 0)
+    return True
+
+def find_something():
+    GPIO.output(po_灯带, 0)
+    GPIO.output(power_光敏电阻, 1)
+    for i in range(20):
+        if GPIO.input(pi_光敏电阻) == 1:
+            print('光敏电阻有发现！')
+            break
+        time.sleep(0.1)
+    else:
+        print('X')
+        GPIO.output(power_光敏电阻, 0)
+        GPIO.output(po_灯带, 1)
+        return False
+    GPIO.output(power_光敏电阻, 0)
+    GPIO.output(po_灯带, 1)
+    return True

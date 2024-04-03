@@ -3,7 +3,6 @@ from NanoDet_PyTorch_CPU.nanodet.util import cfg, load_config, Logger
 from NanoDet_PyTorch_CPU.nanodet.model.arch import build_model
 from NanoDet_PyTorch_CPU.nanodet.util import load_model_weight
 from NanoDet_PyTorch_CPU.nanodet.data.transform import Pipeline
-import OPi.GPIO as GPIO
 
 from gpio import *
 
@@ -56,50 +55,6 @@ def take_photo():
     else:
         raise ValueError('Could not take camera image')
 
-
-def power_电机(t1):
-    global food
-    # open
-    GPIO.output(po_电机, 0)
-    time.sleep(t1)
-
-    # close
-    GPIO.output(po_电机, 1)
-
-
-def remain_food():
-    global food
-    GPIO.output(power_红外, 1)
-    for i in range(10):
-        time.sleep(0.1)
-        if GPIO.input(pi_红外) == 1:
-            print('remain')
-            break
-    else:
-        print('not remain')
-        GPIO.output(power_红外, 0)
-        return False
-    GPIO.output(power_红外, 0)
-    return True
-
-
-def find_something():
-    GPIO.output(po_灯带, 0)
-    GPIO.output(power_光敏电阻, 1)
-    for i in range(20):
-        time.sleep(0.1)
-        if GPIO.input(pi_光敏电阻) == 1:
-            print('?')
-            break
-    else:
-        print('X')
-        GPIO.output(power_光敏电阻, 0)
-        GPIO.output(po_灯带, 1)
-        return False
-    GPIO.output(power_光敏电阻, 0)
-    GPIO.output(po_灯带, 1)
-    return True
-
 led_trigger_mode = ['none', 'usb-gadget', 'usb-host', 'kbd-scrolllock', 'kbd-numlock', 'kbd-capslock', 'kbd-kanalock', 'kbd-shiftlock', 'kbd-altgrlock', 'kbd-ctrllock', 'kbd-altlock', 'kbd-shiftllock', 'kbd-shiftrlock', 'kbd-ctrlllock', 'kbd-ctrlrlock', 'usbport', 'disk-activity', 'disk-read', 'disk-write', 'ide-disk', 'mtd', 'nand-disk', 'heartbeat', 'cpu', 'cpu0', 'cpu1', 'cpu2', 'cpu3', 'activity', 'default-on', 'panic', 'mmc0', 'mmc2', 'mmc1', 'rfkill-any', 'rfkill-none', 'rfkill0', 'rc-feedback', 'rfkill1', 'bluetooth-power', 'hci0-power', 'rfkill2', 'stmmac-0:01:link', 'stmmac-0:01:1Gbps', 'stmmac-0:01:100Mbps', 'stmmac-0:01:10Mbps']
 def led(color, mode='default-on', t1=0):
     if not t1:
@@ -114,7 +69,6 @@ def led(color, mode='default-on', t1=0):
             os.system(f"sudo echo none > /sys/devices/platform/leds/leds/{color}-led/trigger")
         else:
             print(f'{mode} is not supported led-mode')
-
 
 def find_cat():
     # 开始推理时黄灯闪烁，发现猫黄灯常亮2-3s；未发现猫红灯常亮3s(所有推理结束后）
@@ -134,7 +88,7 @@ def find_cat():
     if sort_result(res, 0.6):
         led('green')
         print('cat!cat!cat!')
-        power_电机(2)
+        power_motor(2)
         predictor.visualize(res, meta, cfg.class_names, 0.6, save_path=f'{path_dir}/{i}_findcat.jpg')
         return True
     else:
@@ -157,11 +111,9 @@ rank_ls = ((1024, 768), (1280, 720), (1600, 1200), (1920, 1080),
            (2048, 1536), (2592, 1944), (3264, 2448), (3840, 2160), (3840, 3104))
 w, h = rank_ls[3]
 
-while 1:  # 每隔10秒检测一次
-    time.sleep(6)
-    print(food)
-    if find_something() and (not remain_food() or food == 0):
 
+while 1:  # 每隔10秒检测一次
+    if find_something() and not remain_food():
         dir = f'./capture/{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}'
         path_dir = dir + '/'
         os.makedirs(path_dir, exist_ok=True)
@@ -171,7 +123,7 @@ while 1:  # 每隔10秒检测一次
                 os.renames(dir, dir + '_findcat')
                 find = True
 
-                # print('冷却600s...')
+                # print('冷却10min...')
                 led('green', '0')
                 # time.sleep(600)
                 led('green', '1')
