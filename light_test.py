@@ -1,4 +1,4 @@
-from gpio import *
+from gpio_test import *
 
 open_light(5)
 time.sleep(3)

@@ -61,6 +61,8 @@ def remain_food():
 def find_something():
     GPIO.output(po_灯带, 0)
     GPIO.output(power_光敏电阻, 1)
+
+    time.sleep(0.1) # 先让灯开一会
     for i in range(20):
         if GPIO.input(pi_光敏电阻) == 1:
             print('光敏电阻有发现！')
@@ -71,13 +73,14 @@ def find_something():
         GPIO.output(power_光敏电阻, 0)
         GPIO.output(po_灯带, 1)
         return False
+
     GPIO.output(power_光敏电阻, 0)
     GPIO.output(po_灯带, 1)
     return True
 
 if __name__ == '__main__':
     while 1:
-        if find_something() and remain_food():
+        if find_something() and not remain_food():
             print('假装开始识别猫')
             time.sleep(5)
         else:

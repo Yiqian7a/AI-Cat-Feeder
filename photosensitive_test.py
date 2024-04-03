@@ -1,4 +1,4 @@
-from gpio import *
+from gpio_test import *
 
 GPIO.output(power_光敏电阻, 1)
 

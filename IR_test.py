@@ -1,4 +1,4 @@
-from gpio import *
+from gpio_test import *
 
 GPIO.output(power_红外, 1)
 

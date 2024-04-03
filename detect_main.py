@@ -4,7 +4,7 @@ from NanoDet_PyTorch_CPU.nanodet.model.arch import build_model
 from NanoDet_PyTorch_CPU.nanodet.util import load_model_weight
 from NanoDet_PyTorch_CPU.nanodet.data.transform import Pipeline
 
-from gpio import *
+from gpio_test import *
 
 
 class Predictor(object):
