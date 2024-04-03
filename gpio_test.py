@@ -67,9 +67,9 @@ def slowly_light(on=True, f=500000):
         line.reverse()
 
     for i in range(100):
-        GPIO.output(po_灯带, on)
+        GPIO.output(po_灯带, True)
         time.sleep((5000 - line[i]) / f)
-        GPIO.output(po_灯带, not on)
+        GPIO.output(po_灯带, False)
         time.sleep(line[i] / f)
 
 def find_something():
