@@ -74,3 +74,9 @@ def find_something():
     GPIO.output(power_光敏电阻, 0)
     GPIO.output(po_灯带, 1)
     return True
+
+if __name__ == '__main__':
+    while 1:
+        if find_something() and remain_food():
+            print('假装开始识别猫')
+            time.sleep(5)
