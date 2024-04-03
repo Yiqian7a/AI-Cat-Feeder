@@ -62,10 +62,10 @@ def remain_food():
 def slowly_light(on=True, f=10000):
     # False渐暗，True渐亮
     for i in range(100):
-        GPIO.output(po_灯带, on)
-        time.sleep((100 - i) / f)
         GPIO.output(po_灯带, not on)
         time.sleep(i / f)
+        GPIO.output(po_灯带, on)
+        time.sleep((100 - i) / f)
 
 def find_something():
     slowly_light(on=True)
