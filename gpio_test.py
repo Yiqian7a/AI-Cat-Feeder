@@ -19,6 +19,7 @@ po_灯带 = 19         # power_灯带 = 5v 4        # GND_灯带 = 20
 # 5v = 2,4
 # 3.3v = 1,17
 
+
 # gpio初始化
 GPIO.cleanup()
 GPIO.setwarnings(False)
@@ -59,10 +60,18 @@ def remain_food():
     return True
 
 def find_something():
+    # PWM渐亮渐暗
+    f = 100
+    for i in range(100):
+        GPIO.output(po_灯带, 0)
+        time.sleep(i / f)
+        GPIO.output(po_灯带, 1)
+        time.sleep((100 - i) / f)
+
     GPIO.output(po_灯带, 0)
     GPIO.output(power_光敏电阻, 1)
 
-    time.sleep(0.1) # 先让灯开一会
+
     for i in range(20):
         if GPIO.input(pi_光敏电阻) == 1:
             print('光敏电阻有发现！')
@@ -71,12 +80,22 @@ def find_something():
     else:
         print('X')
         GPIO.output(power_光敏电阻, 0)
-        GPIO.output(po_灯带, 1)
+        for i in range(100):
+            GPIO.output(po_灯带, 0)
+            time.sleep((100 - i) / f)
+            GPIO.output(po_灯带, 1)
+            time.sleep(i / f)
         return False
 
+
+    for i in range(100):
+        GPIO.output(po_灯带, 0)
+        time.sleep((100 - i) / f)
+        GPIO.output(po_灯带, 1)
+        time.sleep(i / f)
     GPIO.output(power_光敏电阻, 0)
-    GPIO.output(po_灯带, 1)
     return True
+
 
 if __name__ == '__main__':
     while 1:
