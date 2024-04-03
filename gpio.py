@@ -1,4 +1,4 @@
-import cv2, os, time
+import os, time
 import OPi.GPIO as GPIO
 
 '''
@@ -33,15 +33,3 @@ GPIO.setup(po_灯带, GPIO.OUT)
 GPIO.output(po_电机, 1)
 GPIO.output(po_灯带, 1)
 
-if __name__ == "__main__":
-    def power_电机(t1=2):
-        # 5r/min，30度/2s
-        # open
-        GPIO.output(po_电机, 0)
-        time.sleep(t1)
-
-        # close
-        GPIO.output(po_电机, 1)
-
-
-    power_电机(60)

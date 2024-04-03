@@ -1,11 +1,11 @@
 import cv2, os, time, torch, argparse, datetime
-from nanodet.util import cfg, load_config, Logger
-from nanodet.model.arch import build_model
-from nanodet.util import load_model_weight
-from nanodet.data.transform import Pipeline
+from NanoDet_PyTorch_CPU.nanodet.util import cfg, load_config, Logger
+from NanoDet_PyTorch_CPU.nanodet.model.arch import build_model
+from NanoDet_PyTorch_CPU.nanodet.util import load_model_weight
+from NanoDet_PyTorch_CPU.nanodet.data.transform import Pipeline
 import OPi.GPIO as GPIO
 
-from gpio_test import *
+from gpio import *
 
 
 class Predictor(object):
@@ -170,7 +170,6 @@ while 1:  # 每隔10秒检测一次
 
         for i in range(10):
             if find_cat():
-                cap.release()
                 os.renames(dir, dir + '_findcat')
                 find = True
 
@@ -180,7 +179,6 @@ while 1:  # 每隔10秒检测一次
                 led('green', '1')
                 break
         else:
-            cap.release()
             os.renames(dir, dir + '_no')
             # 红灯常亮3s
             led('red', t1=3)
