@@ -85,3 +85,4 @@ if __name__ == '__main__':
             time.sleep(5)
         else:
             print('没开始识别猫')
+            time.sleep(3)
