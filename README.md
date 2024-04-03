@@ -4,7 +4,7 @@
 
 该项目基于 [ncnn高性能神经网络前向计算框架](https://github.com/Tencent/ncnn) 和 [Nanodet-pytorch目标检测模型](https://github.com/guo-pu/NanoDet-PyTorch) 搭建，实际部署使用搭载`Ubuntu22.04`系统的 [Orang Pi 3 LTS ](http://www.orangepi.cn/html/hardWare/computerAndMicrocontrollers/details/Orange-Pi-3-LTS.html)开发板，本文档也基于该硬件配置编写。
 
-
+【注意】：该项目对于硬件环境有严格的要求，即使编者在撰写该文档前尝试复刻也遇到了很多问题。在不具备相同硬件的情况下，比较适合有 Python深度学习基础和Linux基础的人学习。
 
 ## 2. 配置环境
 
