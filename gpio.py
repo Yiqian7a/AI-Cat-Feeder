@@ -80,3 +80,5 @@ if __name__ == '__main__':
         if find_something() and remain_food():
             print('假装开始识别猫')
             time.sleep(5)
+        else:
+            print('没开始识别猫')
