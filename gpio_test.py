@@ -70,24 +70,36 @@ def remain_food():
     return True
 
 def find_something():
-    slowly_light(on=True)
+    # 先测试环境光强度
     GPIO.output(power_光敏电阻, 1)
 
-    for i in range(20):
-        if GPIO.input(pi_光敏电阻) == 0:
-            print('光敏电阻被遮挡')
-            break
-        time.sleep(0.1)
-    else:
-        print('X')
-        GPIO.output(power_光敏电阻, 0)
+    if GPIO.input(pi_光敏电阻) == 0:
+        slowly_light(on=True)
+        for i in range(20):
+            if GPIO.input(pi_光敏电阻) == 0:
+                print('光敏电阻被遮挡')
+                break
+            time.sleep(0.1)
+        else:
+            print('X')
+            GPIO.output(power_光敏电阻, 0)
+            slowly_light(on=False)
+            return False
         slowly_light(on=False)
-        return False
+
+    else:
+        for i in range(20):
+            if GPIO.input(pi_光敏电阻) == 0:
+                print('光敏电阻被遮挡')
+                break
+            time.sleep(0.1)
+        else:
+            print('X')
+            GPIO.output(power_光敏电阻, 0)
+            return False
 
     GPIO.output(power_光敏电阻, 0)
-    slowly_light(on=False)
     return True
-
 
 if __name__ == '__main__':
     while 1:
