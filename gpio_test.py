@@ -66,6 +66,7 @@ def slowly_light(on=True, f=10000):
         time.sleep((100 - i) / f)
         GPIO.output(po_灯带, not on)
         time.sleep(i / f)
+    # 最后一个状态是on的状态
 
 def find_something():
     slowly_light(on=True)
