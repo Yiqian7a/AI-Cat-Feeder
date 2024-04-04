@@ -39,6 +39,15 @@ def open_light(t1=2):
     time.sleep(t1)
     GPIO.output(po_灯带, 1)
 
+def slowly_light(on=True, f=10000):
+    # False渐暗，True渐亮
+    for i in range(100):
+        GPIO.output(po_灯带, on)
+        time.sleep((100 - i) / f)
+        GPIO.output(po_灯带, not on)
+        time.sleep(i / f)
+    # 最后一个状态是on的状态
+
 def power_motor(t1=2):
     # 5r/min，30度/2s
     GPIO.output(po_电机, 0)
@@ -48,6 +57,7 @@ def power_motor(t1=2):
 def remain_food():
     GPIO.output(power_红外, 1)
     for i in range(10):
+        # 反光程度低——猫粮有剩余
         if GPIO.input(pi_红外) == 1:
             print('猫粮还有剩余')
             break
@@ -59,25 +69,13 @@ def remain_food():
     GPIO.output(power_红外, 0)
     return True
 
-def slowly_light(on=True, f=10000):
-    # False渐暗，True渐亮
-    for i in range(100):
-        GPIO.output(po_灯带, on)
-        time.sleep((100 - i) / f)
-        GPIO.output(po_灯带, not on)
-        time.sleep(i / f)
-    # 最后一个状态是on的状态
-
 def find_something():
     slowly_light(on=True)
-
-    GPIO.output(po_灯带, 0)
     GPIO.output(power_光敏电阻, 1)
 
     for i in range(20):
-        # 反光程度低——猫粮有剩余
         if GPIO.input(pi_光敏电阻) == 0:
-            print('光敏电阻有发现！')
+            print('光敏电阻被遮挡')
             break
         time.sleep(0.1)
     else:
@@ -86,6 +84,7 @@ def find_something():
         slowly_light(on=False)
         return False
 
+    GPIO.output(power_光敏电阻, 0)
     slowly_light(on=False)
     return True
 
