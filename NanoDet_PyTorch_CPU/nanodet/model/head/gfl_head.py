@@ -5,7 +5,7 @@ import torch.nn.functional as F
 import torch.distributed as dist
 import numpy as np
 import cv2
-from nanodet.util import distance2bbox, bbox2distance, overlay_bbox_cv
+from ...util import distance2bbox, bbox2distance, overlay_bbox_cv
 from ..module.scale import Scale
 from ..module.conv import ConvModule
 from ..module.init_weights import normal_init
