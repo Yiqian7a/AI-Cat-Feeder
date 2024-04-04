@@ -104,7 +104,7 @@ led('red', mode='none')
 # 加载推理模型
 load_config(cfg, './NanoDet_PyTorch_CPU/config/nanodet-m.yml')
 logger = Logger(-1, use_tensorboard=False)
-predictor = Predictor(cfg, 'NanoDet_PyTorch_CPU/model/nanodet_m.pth', logger)
+predictor = Predictor(cfg, './NanoDet_PyTorch_CPU/model/nanodet_m.pth', logger)
 
 # 摄像头的分辨率宽高组合，根据摄像头需要调整
 rank_ls = ((1024, 768), (1280, 720), (1600, 1200), (1920, 1080),
