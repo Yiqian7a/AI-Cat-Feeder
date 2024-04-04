@@ -62,12 +62,10 @@ def remain_food():
 def slowly_light(on=True, f=10000):
     # False渐暗，True渐亮
     for i in range(100):
-        GPIO.output(po_灯带, not on)
-        time.sleep(i / f)
         GPIO.output(po_灯带, on)
         time.sleep((100 - i) / f)
-    if not on:
-        GPIO.output(po_灯带, True)
+        GPIO.output(po_灯带, not on)
+        time.sleep(i / f)
 
 def find_something():
     slowly_light(on=True)
@@ -76,7 +74,8 @@ def find_something():
     GPIO.output(power_光敏电阻, 1)
 
     for i in range(20):
-        if GPIO.input(pi_光敏电阻) == 1:
+        # 反光程度低——猫粮有剩余
+        if GPIO.input(pi_光敏电阻) == 0:
             print('光敏电阻有发现！')
             break
         time.sleep(0.1)
