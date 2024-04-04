@@ -71,6 +71,7 @@ def remain_food():
 
 def find_something():
     GPIO.output(power_光敏电阻, 1)
+    time.sleep(0.1)
     # 先测试环境光强度，输出为1被遮挡，开灯试一试
     if GPIO.input(pi_光敏电阻) == 1:
         slowly_light(on=True)
