@@ -3,9 +3,9 @@ import cv2
 import time
 import torch
 
-from nanodet.model.arch import build_model
-from nanodet.util import load_model_weight
-from nanodet.data.transform import Pipeline
+from ..nanodet.model.arch import build_model
+from ..nanodet.util import load_model_weight
+from ..nanodet.data.transform import Pipeline
 
 
 class Predictor(object):

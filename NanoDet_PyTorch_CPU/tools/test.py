@@ -4,12 +4,12 @@ import json
 import datetime
 import argparse
 
-from nanodet.util import mkdir, Logger, cfg, load_config
-from nanodet.trainer import build_trainer
-from nanodet.data.collate import collate_function
-from nanodet.data.dataset import build_dataset
-from nanodet.model.arch import build_model
-from nanodet.evaluator import build_evaluator
+from ..nanodet.util import mkdir, Logger, cfg, load_config
+from ..nanodet.trainer import build_trainer
+from ..nanodet.data.collate import collate_function
+from ..nanodet.data.dataset import build_dataset
+from ..nanodet.model.arch import build_model
+from ..nanodet.evaluator import build_evaluator
 
 
 def parse_args():

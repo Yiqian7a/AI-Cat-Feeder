@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 import torch.nn as nn
-from nanodet.model.module.init_weights import normal_init
+from ...module.init_weights import normal_init
 
 from .anchor_generator import AnchorGenerator
 from .anchor_target import multi_apply

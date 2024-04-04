@@ -2,7 +2,7 @@ import os
 import copy
 import warnings
 import torch
-from nanodet.util import mkdir, DataParallel, load_model_weight, save_model, MovingAverage, AverageMeter
+from ..util import mkdir, DataParallel, load_model_weight, save_model, MovingAverage, AverageMeter
 
 
 class Trainer:

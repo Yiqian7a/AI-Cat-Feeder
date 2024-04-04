@@ -1,7 +1,7 @@
 import os
 import torch
-from nanodet.model.arch import build_model
-from nanodet.util import Logger, cfg, load_config, load_model_weight
+from ..nanodet.model.arch import build_model
+from ..nanodet.util import Logger, cfg, load_config, load_model_weight
 
 def main(config, model_path, output_path, input_shape=(320, 320)):
     logger = Logger(-1, config.save_dir, False)

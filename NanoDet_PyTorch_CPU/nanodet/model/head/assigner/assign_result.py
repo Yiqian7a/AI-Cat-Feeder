@@ -1,6 +1,6 @@
 import torch
 
-from nanodet.util import util_mixins
+from ....util import util_mixins
 
 
 class AssignResult(util_mixins.NiceRepr):
