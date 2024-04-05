@@ -63,13 +63,11 @@ def led(color, mode='default-on', t1=0):
     else:
         with open(f'/sys/devices/platform/leds/leds/{color}-led/trigger', 'r') as file:
             origin_mode = file.read()
-            for line in origin_mode:
-                print(line)
-                if '[' in line:
-                    line = line.split('[')
-                    line = line[1].split(']')
-                    origin_mode = line[0]
-                    break
+
+            if '[' in origin_mode:
+                origin_mode = origin_mode.split('[')
+                origin_mode = origin_mode[1].split(']')
+                origin_mode = origin_mode[0]
             else:
                 origin_mode = 'none'
         print(origin_mode)
