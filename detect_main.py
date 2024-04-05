@@ -41,7 +41,7 @@ class Predictor(object):
 
 # 调用摄像头拍一张照片
 def take_photo():
-    led('red',t1 = 0.2)
+    led('red', t1=0.2)
 
     cap = cv2.VideoCapture(1)
     cap.set(3,w)
@@ -99,43 +99,45 @@ def find_cat():
 
 # -------------------------------------------------------------------------------------------------------------------
 
-led('green')
-led('red', mode='none')
-# 加载推理模型
-load_config(cfg, './NanoDet_PyTorch_CPU/config/nanodet-m.yml')
-logger = Logger(-1, use_tensorboard=False)
-predictor = Predictor(cfg, './NanoDet_PyTorch_CPU/model/nanodet_m.pth', logger)
 
-# 摄像头的分辨率宽高组合，根据摄像头需要调整
-rank_ls = ((1024, 768), (1280, 720), (1600, 1200), (1920, 1080),
-           (2048, 1536), (2592, 1944), (3264, 2448), (3840, 2160), (3840, 3104))
-w, h = rank_ls[3]
+if __name__ == '__main__':
+    led('green')
+    led('red', mode='none')
+    # 加载推理模型
+    load_config(cfg, './NanoDet_PyTorch_CPU/config/nanodet-m.yml')
+    logger = Logger(-1, use_tensorboard=False)
+    predictor = Predictor(cfg, './NanoDet_PyTorch_CPU/model/nanodet_m.pth', logger)
+
+    # 摄像头的分辨率宽高组合，根据摄像头需要调整
+    rank_ls = ((1024, 768), (1280, 720), (1600, 1200), (1920, 1080),
+               (2048, 1536), (2592, 1944), (3264, 2448), (3840, 2160), (3840, 3104))
+    w, h = rank_ls[3]
 
 
-while 1:  # 每隔10秒检测一次
-    if find_something() and not remain_food():
-        dir = f'./capture/{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}'
-        path_dir = dir + '/'
-        os.makedirs(path_dir, exist_ok=True)
+    while 1:  # 每隔10秒检测一次
+        if find_something() and not remain_food():
+            dir = f'./capture/{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}'
+            path_dir = dir + '/'
+            os.makedirs(path_dir, exist_ok=True)
 
-        for i in range(10):
-            if find_cat():
-                os.renames(dir, dir + '_findcat')
-                find = True
+            for i in range(10):
+                if find_cat():
+                    os.renames(dir, dir + '_findcat')
+                    find = True
 
-                # print('冷却10min...')
-                led('green', '0')
-                # time.sleep(600)
-                led('green', '1')
-                break
+                    # print('冷却10min...')
+                    led('green', '0')
+                    # time.sleep(600)
+                    led('green', '1')
+                    break
+            else:
+                os.renames(dir, dir + '_no')
+                # 红灯常亮3s
+                led('red', t1=3)
+
+                # print('冷却60s...')
+                # led('green', '0')
+                # time.sleep(60)
+                # led('green', '1')
         else:
-            os.renames(dir, dir + '_no')
-            # 红灯常亮3s
-            led('red', t1=3)
-
-            # print('冷却60s...')
-            # led('green', '0')
-            # time.sleep(60)
-            # led('green', '1')
-    else:
-        time.sleep(3)
+            time.sleep(3)
