@@ -62,7 +62,14 @@ def led(color, mode='default-on', t1=0):
             print(f'{mode} is not supported led-mode')
     else:
         with open(f'/sys/devices/platform/leds/leds/{color}-led/trigger', 'r') as file:
-            origin_mode = file.readline()
+            origin_mode = file.read()
+            for line in origin_mode:
+                # print(line)
+                if '[' in line:
+                    line = line.split('[')
+                    line = line[1].split(']')
+                    origin_mode = line[0]
+                    break
         print(origin_mode)
 
         if mode in led_trigger_mode:
@@ -125,14 +132,17 @@ if __name__ == '__main__':
             for i in range(10):
                 if find_cat():
                     os.renames(dir, dir + '_findcat')
+
                     if light_is_on:
                         slowly_light(on=False)
-
                     # print('冷却10min...')
                     led('green', 'none', 600)
                     break
             else:
                 os.renames(dir, dir + '_no')
+                if light_is_on:
+                    slowly_light(on=False)
+
                 # 红灯常亮3s
                 led('red', t1=3)
                 # print('冷却60s...')
