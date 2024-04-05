@@ -112,7 +112,7 @@ if __name__ == '__main__':
             time.sleep(3)
         else:
             print('没开始识别猫')
-
+        print('灯开了？',light_is_on)
         if light_is_on:
             slowly_light(on=False)
         time.sleep(3)

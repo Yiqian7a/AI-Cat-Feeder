@@ -69,7 +69,7 @@ def led(color, mode='default-on', t1=0):
                 origin_mode = origin_mode[0]
             else:
                 origin_mode = 'none'
-        print(origin_mode)
+        # print(origin_mode)
 
         if mode in led_trigger_mode:
             os.system(f"sudo echo {mode} > /sys/devices/platform/leds/leds/{color}-led/trigger")
