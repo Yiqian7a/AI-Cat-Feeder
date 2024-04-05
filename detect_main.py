@@ -121,6 +121,8 @@ if __name__ == '__main__':
 
 
     while 1:  # 每隔5秒检测一次
+
+        print('灯开了？', light_is_on)
         if find_something() and not remain_food():
             dir = f'./capture/{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}'
             path_dir = dir + '/'
@@ -130,7 +132,7 @@ if __name__ == '__main__':
                 if find_cat():
                     os.renames(dir, dir + '_findcat')
 
-                    if not light_is_on:
+                    if light_is_on:
                         slowly_light(on=False)
                     # print('冷却10min...')
                     led('green', 'none', 600)
@@ -138,7 +140,7 @@ if __name__ == '__main__':
             else:
                 os.renames(dir, dir + '_no')
                 print('灯开了？', light_is_on)
-                if not light_is_on:
+                if light_is_on:
                     slowly_light(on=False)
                 # 红灯常亮3s
                 led('red', t1=3)
