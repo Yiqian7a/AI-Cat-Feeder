@@ -70,6 +70,8 @@ def led(color, mode='default-on', t1=0):
                     line = line[1].split(']')
                     origin_mode = line[0]
                     break
+            else:
+                origin_mode = 'none'
         print(origin_mode)
 
         if mode in led_trigger_mode:
