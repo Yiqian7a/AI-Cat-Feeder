@@ -109,6 +109,7 @@ def find_cat():
 if __name__ == '__main__':
     led('green')
     led('red', mode='none')
+    light_is_on = False
     # 加载推理模型
     load_config(cfg, './NanoDet_PyTorch_CPU/config/nanodet-m.yml')
     logger = Logger(-1, use_tensorboard=False)
@@ -139,7 +140,6 @@ if __name__ == '__main__':
                     break
             else:
                 os.renames(dir, dir + '_no')
-                print('灯开了？', light_is_on)
                 if light_is_on:
                     slowly_light(on=False)
                 # 红灯常亮3s
