@@ -33,11 +33,15 @@ GPIO.setup(po_灯带, GPIO.OUT)
 # 初始化关闭
 GPIO.output(po_电机, 1)
 GPIO.output(po_灯带, 1)
+light_is_on = False
 
 def open_light(t1=2):
+    global light_is_on
+    light_is_on = True
     GPIO.output(po_灯带, 0)
     time.sleep(t1)
     GPIO.output(po_灯带, 1)
+    light_is_on = False
 
 def slowly_light(on=True, f=10000):
     # False渐暗，True渐亮
@@ -46,6 +50,9 @@ def slowly_light(on=True, f=10000):
         time.sleep((100 - i) / f)
         GPIO.output(po_灯带, not on)
         time.sleep(i / f)
+
+    global light_is_on
+    light_is_on = on
     # 最后一个状态是on的状态
 
 def power_motor(t1=2):
@@ -75,7 +82,7 @@ def find_something():
     # 先测试环境光强度，输出为1被遮挡，开灯试一试
     if GPIO.input(pi_光敏电阻) == 1:
         slowly_light(on=True)
-        for i in range(20):
+        for _ in range(20):
             if GPIO.input(pi_光敏电阻) == 1:
                 print('光敏电阻被遮挡')
                 break
@@ -85,10 +92,8 @@ def find_something():
             GPIO.output(power_光敏电阻, 0)
             slowly_light(on=False)
             return False
-        slowly_light(on=False)
-
     else:
-        for i in range(20):
+        for _ in range(20):
             if GPIO.input(pi_光敏电阻) == 1:
                 print('光敏电阻被遮挡')
                 break
@@ -107,5 +112,9 @@ if __name__ == '__main__':
             print('假装开始识别猫')
             time.sleep(5)
         else:
+            slowly_light(on=False)
             print('没开始识别猫')
             time.sleep(3)
+
+        if light_is_on:
+            slowly_light(on=False)

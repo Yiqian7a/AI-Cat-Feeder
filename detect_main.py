@@ -138,5 +138,6 @@ if __name__ == '__main__':
                 # time.sleep(60)
                 # led('green', '1')
         else:
+            slowly_light(on=False)
             time.sleep(3)
 
