@@ -80,7 +80,6 @@ def led(color, mode='default-on', t1=0):
 
 def find_cat():
     # 开始推理时黄灯闪烁，发现猫黄灯常亮2-3s；未发现猫红灯常亮3s(所有推理结束后）
-    led('green', 'heartbeat')
     raw_image = take_photo()
 
     # 整理由nanodet模型推理出的结果
@@ -94,13 +93,13 @@ def find_cat():
     logger.log('开始推理')
     meta, res = predictor.inference(raw_image)
     if sort_result(res, 0.6):
-        led('green')
         print('cat!cat!cat!')
+        led('green')
         power_motor(2)
+        led('green',mode='none')
         predictor.visualize(res, meta, cfg.class_names, 0.6, save_path=f'{path_dir}/{i}_findcat.jpg')
         return True
     else:
-        led('green', mode='none')
         print('no cat')
         cv2.imwrite(f'{path_dir}/{i}.jpg', raw_image)
         return False
@@ -137,10 +136,11 @@ if __name__ == '__main__':
                         slowly_light(on=False)
                     # print('冷却10min...')
                     led('green', 'none', 600)
+                    led('green')
                     break
             else:
                 os.renames(dir, dir + '_no')
-
+                print('灯开了？', gpio_test.light_is_on)
                 if light_is_on:
                     slowly_light(on=False)
                 # 红灯常亮3s
