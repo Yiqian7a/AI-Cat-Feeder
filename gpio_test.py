@@ -44,15 +44,14 @@ def open_light(t1=2):
     light_is_on = False
 
 def slowly_light(on=True, f=10000):
+    global light_is_on
+    light_is_on = on
     # False渐暗，True渐亮
     for i in range(100):
         GPIO.output(po_灯带, on)
         time.sleep((100 - i) / f)
         GPIO.output(po_灯带, not on)
         time.sleep(i / f)
-
-    global light_is_on
-    light_is_on = on
     # 最后一个状态是on的状态
 
 def power_motor(t1=2):
@@ -112,7 +111,6 @@ if __name__ == '__main__':
             print('假装开始识别猫')
             time.sleep(5)
         else:
-            slowly_light(on=False)
             print('没开始识别猫')
             time.sleep(3)
 
