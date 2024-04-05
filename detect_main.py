@@ -41,13 +41,13 @@ class Predictor(object):
 
 # 调用摄像头拍一张照片
 def take_photo():
-    led('red', t1=0.2)
-
+    led('red')
     # cap.set(3,w)
     # cap.set(4,h)
     # print(f"分辨率: {cap.get(3)}x{cap.get(4)}")
 
     ret, image = cap.read()
+    led('red', mode='none')
     if ret:
         return image
     else:
@@ -63,7 +63,6 @@ def led(color, mode='default-on', t1=0):
     else:
         with open(f'/sys/devices/platform/leds/leds/{color}-led/trigger', 'r') as file:
             origin_mode = file.read()
-
             if '[' in origin_mode:
                 origin_mode = origin_mode.split('[')
                 origin_mode = origin_mode[1].split(']')
@@ -101,6 +100,7 @@ def find_cat():
         predictor.visualize(res, meta, cfg.class_names, 0.6, save_path=f'{path_dir}/{i}_findcat.jpg')
         return True
     else:
+        led('green', mode='none')
         print('no cat')
         cv2.imwrite(f'{path_dir}/{i}.jpg', raw_image)
         return False
@@ -140,9 +140,9 @@ if __name__ == '__main__':
                     break
             else:
                 os.renames(dir, dir + '_no')
+
                 if light_is_on:
                     slowly_light(on=False)
-
                 # 红灯常亮3s
                 led('red', t1=3)
                 # print('冷却60s...')
