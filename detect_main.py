@@ -61,10 +61,14 @@ def led(color, mode='default-on', t1=0):
         else:
             print(f'{mode} is not supported led-mode')
     else:
+        with open('/sys/devices/platform/leds/leds/{color}-led/trigger', 'r') as file:
+            origin_mode = file.readline()
+        print(origin_mode)
+
         if mode in led_trigger_mode:
             os.system(f"sudo echo {mode} > /sys/devices/platform/leds/leds/{color}-led/trigger")
             time.sleep(t1)
-            os.system(f"sudo echo none > /sys/devices/platform/leds/leds/{color}-led/trigger")
+            os.system(f"sudo echo {origin_mode} > /sys/devices/platform/leds/leds/{color}-led/trigger")
         else:
             print(f'{mode} is not supported led-mode')
 
@@ -112,7 +116,7 @@ if __name__ == '__main__':
     # w, h = rank_ls[3]
 
 
-    while 1:  # 每隔10秒检测一次
+    while 1:  # 每隔5秒检测一次
         if find_something() and not remain_food():
             dir = f'./capture/{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}'
             path_dir = dir + '/'
@@ -121,23 +125,18 @@ if __name__ == '__main__':
             for i in range(10):
                 if find_cat():
                     os.renames(dir, dir + '_findcat')
-                    find = True
+                    if light_is_on:
+                        slowly_light(on=False)
 
                     # print('冷却10min...')
-                    led('green', '0')
-                    # time.sleep(600)
-                    led('green', '1')
+                    led('green', 'none', 600)
                     break
             else:
                 os.renames(dir, dir + '_no')
                 # 红灯常亮3s
                 led('red', t1=3)
-
                 # print('冷却60s...')
-                # led('green', '0')
-                # time.sleep(60)
-                # led('green', '1')
+                led('green', 'none', 60)
         else:
-            slowly_light(on=False)
-            time.sleep(3)
+            time.sleep(5)
 

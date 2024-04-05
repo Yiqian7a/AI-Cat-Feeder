@@ -109,10 +109,10 @@ if __name__ == '__main__':
     while 1:
         if find_something() and not remain_food():
             print('假装开始识别猫')
-            time.sleep(5)
+            time.sleep(3)
         else:
             print('没开始识别猫')
-            time.sleep(3)
 
         if light_is_on:
             slowly_light(on=False)
+        time.sleep(3)
