@@ -43,13 +43,11 @@ class Predictor(object):
 def take_photo():
     led('red', t1=0.2)
 
-    cap = cv2.VideoCapture(1)
-    cap.set(3,w)
-    cap.set(4,h)
-    ret, image = cap.read()
-    print(f"分辨率: {cap.get(3)}x{cap.get(4)}")
+    # cap.set(3,w)
+    # cap.set(4,h)
+    # print(f"分辨率: {cap.get(3)}x{cap.get(4)}")
 
-    cap.release()
+    ret, image = cap.read()
     if ret:
         return image
     else:
@@ -107,11 +105,11 @@ if __name__ == '__main__':
     load_config(cfg, './NanoDet_PyTorch_CPU/config/nanodet-m.yml')
     logger = Logger(-1, use_tensorboard=False)
     predictor = Predictor(cfg, './NanoDet_PyTorch_CPU/model/nanodet_m.pth', logger)
-
+    cap = cv2.VideoCapture(1)
     # 摄像头的分辨率宽高组合，根据摄像头需要调整
-    rank_ls = ((1024, 768), (1280, 720), (1600, 1200), (1920, 1080),
-               (2048, 1536), (2592, 1944), (3264, 2448), (3840, 2160), (3840, 3104))
-    w, h = rank_ls[3]
+    # rank_ls = ((1024, 768), (1280, 720), (1600, 1200), (1920, 1080),
+    #            (2048, 1536), (2592, 1944), (3264, 2448), (3840, 2160), (3840, 3104))
+    # w, h = rank_ls[3]
 
 
     while 1:  # 每隔10秒检测一次
@@ -141,3 +139,4 @@ if __name__ == '__main__':
                 # led('green', '1')
         else:
             time.sleep(3)
+
