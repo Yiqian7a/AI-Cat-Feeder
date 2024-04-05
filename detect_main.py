@@ -61,7 +61,7 @@ def led(color, mode='default-on', t1=0):
         else:
             print(f'{mode} is not supported led-mode')
     else:
-        with open('/sys/devices/platform/leds/leds/{color}-led/trigger', 'r') as file:
+        with open(f'/sys/devices/platform/leds/leds/{color}-led/trigger', 'r') as file:
             origin_mode = file.readline()
         print(origin_mode)
 
