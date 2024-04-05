@@ -4,7 +4,7 @@ from NanoDet_PyTorch_CPU.nanodet.model.arch import build_model
 from NanoDet_PyTorch_CPU.nanodet.util import load_model_weight
 from NanoDet_PyTorch_CPU.nanodet.data.transform import Pipeline
 
-from gpio_test import *
+import gpio_test as gpio
 
 
 class Predictor(object):
@@ -94,7 +94,7 @@ def find_cat():
     meta, res = predictor.inference(raw_image)
     if sort_result(res, 0.6):
         print('cat!cat!cat!')
-        power_motor(2)
+        gpio.power_motor(2)
         predictor.visualize(res, meta, cfg.class_names, 0.6, save_path=f'{path_dir}/{i}_findcat.jpg')
         return True
     else:
@@ -109,7 +109,6 @@ def find_cat():
 if __name__ == '__main__':
     led('green')
     led('red', mode='none')
-    light_is_on = False
     # 加载推理模型
     load_config(cfg, './NanoDet_PyTorch_CPU/config/nanodet-m.yml')
     logger = Logger(-1, use_tensorboard=False)
@@ -122,9 +121,7 @@ if __name__ == '__main__':
 
 
     while 1:  # 每隔5秒检测一次
-
-        print('灯开了？', light_is_on)
-        if find_something() and not remain_food():
+        if gpio.find_something() and not gpio.remain_food():
             dir = f'./capture/{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}'
             path_dir = dir + '/'
             os.makedirs(path_dir, exist_ok=True)
@@ -133,15 +130,15 @@ if __name__ == '__main__':
                 if find_cat():
                     os.renames(dir, dir + '_findcat')
 
-                    if light_is_on:
-                        slowly_light(on=False)
+                    if gpio.light_is_on:
+                        gpio.slowly_light(on=False)
                     # print('冷却10min...')
                     led('green', 'none', 600)
                     break
             else:
                 os.renames(dir, dir + '_no')
-                if light_is_on:
-                    slowly_light(on=False)
+                if gpio.light_is_on:
+                    gpio.slowly_light(on=False)
                 # 红灯常亮3s
                 led('red', t1=3)
                 # print('冷却60s...')
