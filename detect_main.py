@@ -93,8 +93,6 @@ def find_cat():
     logger.log('开始推理')
     meta, res = predictor.inference(raw_image)
     if sort_result(res, 0.6):
-        print('cat!cat!cat!')
-        gpio.power_motor(2)
         predictor.visualize(res, meta, cfg.class_names, 0.6, save_path=f'{path_dir}/{i}_findcat.jpg')
         return True
     else:
@@ -128,13 +126,16 @@ if __name__ == '__main__':
 
             for i in range(10):
                 if find_cat():
+                    print('cat!cat!cat!')
                     os.renames(dir, dir + '_findcat')
+                    gpio.power_motor(3)
 
                     if gpio.light_is_on:
                         gpio.slowly_light(on=False)
                     # print('冷却10min...')
                     led('green', 'none', 600)
                     break
+                time.sleep(0.3)
             else:
                 os.renames(dir, dir + '_no')
                 if gpio.light_is_on:

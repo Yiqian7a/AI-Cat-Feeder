@@ -55,7 +55,7 @@ def slowly_light(on=True, f=10000):
     # 最后一个状态是on的状态
 
 def power_motor(t1=2):
-    # 5r/min，30度/2s
+    # 5v下：5r/min，30度/2s；3.3v减半
     GPIO.output(po_电机, 0)
     time.sleep(t1)
     GPIO.output(po_电机, 1)
