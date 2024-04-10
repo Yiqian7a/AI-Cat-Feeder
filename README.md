@@ -119,4 +119,4 @@ sudo python3 detect_main.py
 
 开发过程讲解视频：[bilibili](https://www.bilibili.com/video/BV1NN4y1976b?vd_source=a6aba61751766c888b91980d2f024a86)
 
-项目仓库：[Gitee](https://gitee.com/Yiqian7a/AI-Cat-Feeder)
+项目仓库：[Gitee](https://gitee.com/Yiqian7a/AI-Cat-Feeder)（`master`分支为主要程序，`other_design`分支为3D设计、展板等）
